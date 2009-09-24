@@ -217,6 +217,7 @@ fr-FR:
   combine: Combine
   comp_order: "Commande complète"
   comp_order_confirmation: "Le client n'a pas été débité.  Êtes-vous sûr de vouloir valider cette commande ?"
+  complete: complete
   complete_list: "Complete List"
   configuration: Configuration
   configuration_options: "Option configuration"
@@ -230,6 +231,7 @@ fr-FR:
   country: Pays
   country_based: "Country Based"
   coupon: Coupon                                                                             
+  coupon_code: Coupon Code
   coupons: Coupons
   coupons_description: Manage coupons
   create: Créer
@@ -270,6 +272,7 @@ fr-FR:
   email_server_settings_description: "Définir les paramètres email du serveur."
   empty_cart: "Panier vide"
   enable_mail_delivery: Activation de la distribution des emails
+  enable_mail_queue: "Enable Mail Queue"
   enter_exactly_as_shown_on_card: Please enter exactly as shown on the card
   error: erreur
   event: Evenements
@@ -342,6 +345,8 @@ fr-FR:
   maestro_or_solo_cards: Maestro/Solo cards
   mail_delivery_enabled: "Distribution des emails activée"
   mail_delivery_not_enabled: "Distribution des emails est désactivée"
+  mail_queue_enabled: "Mail queue is enabled"
+  mail_queue_not_enabled: "Mail queue is not enabled (emails are delivered immediately)"
   mail_server_preferences: Préférence du serveur de messagerie
   mail_server_settings: "Paramètres du serveur de messagerie"
   mark_shipped: "Mark Shipped"
@@ -400,6 +405,7 @@ fr-FR:
   order_number: Commande
   order_operation_authorize: Authorisation
   order_processed_successfully: "Votre commande a bien été traitée avec succès"
+  order_summary: Order Summary
   order_total: "Total de la commande"
   order_total_message: "Le total du montant débité sur votre carte va être de"
   order_updated: "Commande mise à jour"

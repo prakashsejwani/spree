@@ -217,6 +217,7 @@ mx:
   combine: Combinar
   comp_order: "Pedido completado"
   comp_order_confirmation: "Confirmación de pedido completado"
+  complete: complete
   complete_list: "Lista Completa"
   configuration: "Configuración"
   configuration_options: "Opciones de configuración"
@@ -230,6 +231,7 @@ mx:
   country: "País"
   country_based: "País base"
   coupon: "Cupón"                                                                             
+  coupon_code: Coupon Code
   coupons: Cupones
   coupons_description: "Administración de Cupones"
   create: Crear
@@ -270,6 +272,7 @@ mx:
   email_server_settings_description: "Configuración del servidor de correo electrónico"
   empty_cart: "Vaciar Carrito"
   enable_mail_delivery: "Habilitar envío por correo" 
+  enable_mail_queue: "Enable Mail Queue"
   enter_exactly_as_shown_on_card: "Por favor ingrese los numeros exactamente como se encuentran en la tarjeta"
   error: error
   event: Evento
@@ -342,6 +345,8 @@ mx:
   maestro_or_solo_cards: Maestro/Solo cards
   mail_delivery_enabled: "El envío de correo está habilitada"
   mail_delivery_not_enabled: "El envío de correo está deshabilitada"
+  mail_queue_enabled: "Mail queue is enabled"
+  mail_queue_not_enabled: "Mail queue is not enabled (emails are delivered immediately)"
   mail_server_preferences: Preferencias del servidor de correo
   mail_server_settings: "Configuración del servidor de correo"
   mark_shipped: "Marcar como enviado"
@@ -400,6 +405,7 @@ mx:
   order_number: "Pedido No."
   order_operation_authorize: "Autorizar"
   order_processed_successfully: "Su pedido se ha procesado correctamente"
+  order_summary: Order Summary
   order_total: "Total del pedido"
   order_total_message: "El importe total cargado a su tarjeta de crédito será"
   order_updated: "Pedido actualizado"

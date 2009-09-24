@@ -26,15 +26,19 @@
 <table class="index">
   <tr>
     <th><%= t("sku") %></td>
-    <th><%= order @search, :by => :name,         :as => t("name") %></td>
-    <th><%= order @search, :by => :master_price, :as => t("master_price") %></td>
+	    <th><%= order @search, :by => :name, :as => t("name") %></th>
+	    <th><%= order @search, :by => :price, :as => t("master_price") %></th>
+		<th>Show on front page</th>
     <th>&nbsp;</th>
   </tr>
+  <%form_tag collection_url, :method=>:put do%>
+  <div>
 <% @collection.each do |product| %>
   <tr <%= 'style="color:red;"' unless product.deleted_at.nil? %> id="<%= dom_id product %>">
     <td><%= product.sku %></td>
     <td><%= product.name %></td>
-    <td><%= product.master_price %></td>
+    <td><%= product.price %></td>
+	<td><%= check_box_tag "products[]",product.id%></td>
     <td class="actions">
       <%= link_to_edit product if product.deleted_at.nil?  %>
       &nbsp;
@@ -42,6 +46,9 @@
     </td>
   </tr>
 <% end %>
+<tr><td colspan='5'><%= submit_tag "Show Front", :class => "button" %></td></tr>
+</div>
+<%end%>
 </table>
 <%= will_paginate (:prev => "&#171; #{t('previous')}", :next => "#{t('next')} &#187;") %>						
 

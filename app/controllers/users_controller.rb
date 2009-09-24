@@ -24,6 +24,8 @@ class UsersController < Spree::BaseController
   show.before do
     @orders = @user.orders.checkout_complete 
   end
+  
+  new_action.before { flash.now[:notice] = I18n.t(:please_create_user) unless admin_created? }
 
   def update
     @user = @current_user
@@ -34,11 +36,5 @@ class UsersController < Spree::BaseController
       render :action => :edit
     end
   end
-
-
-  private
-    def object
-      @object ||= current_user
-    end
 
 end

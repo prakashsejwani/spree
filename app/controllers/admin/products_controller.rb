@@ -27,7 +27,7 @@ class Admin::ProductsController < Admin::BaseController
   update.response do |wants| 
     # override the default redirect behavior of r_c
     # need to reload Product in case name / permalink has changed
-    wants.html {redirect_to edit_admin_product_url(Product.find(@product.id)) }
+    wants.html {redirect_to edit_admin_product_url(Product.find(@product.id), :show_on_front_page => params[:product][:show_on_front_page]) }
   end
   
   # override the destory method to set deleted_at value 
@@ -57,14 +57,18 @@ class Admin::ProductsController < Admin::BaseController
     end
     
     def collection
-      base_scope = end_of_association_chain
+      base_scope = Product#end_of_association_chain
 
       # Note: the SL scopes are on/off switches, so we need to select "not_deleted" explicitly if the switch is off
       # QUERY - better as named scope or as SL scope?
       if params[:search].nil? || params[:search][:deleted_at_not_null].blank?
         base_scope = base_scope.not_deleted
       end
-
+#      if params[:products]
+#        base_scope = base_scope.all_marked_show_on_front_page(params[:products])
+#        puts "=-=-=-=-=-=-=-=-=-#{base_scope}"
+#      end
+      
       @search = base_scope.search(params[:search])
       @search.order ||= "ascend_by_name"
 
@@ -72,16 +76,5 @@ class Admin::ProductsController < Admin::BaseController
                                      :per_page => Spree::Config[:admin_products_per_page], 
                                      :page     => params[:page])
     end
-
-    # override rc_default build b/c we need to make sure there's an empty variant added to each product
-    def build_object
-      @object ||= Product.new params[:product]      
-      if @object.variants.empty?
-        @object.available_on = Time.now
-        @object.variants << Variant.new(:product => @object)
-      end
-      @object.variant.sku = params[:product] ? params[:product][:sku] : ""
-      @object
-    end   
   
 end

@@ -9,8 +9,8 @@ class Address < ActiveRecord::Base
   validates_presence_of :lastname
   validates_presence_of :address1
   validates_presence_of :city
-  validates_presence_of :state, :if => Proc.new { |address| address.state_name.blank? }
-  validates_presence_of :state_name, :if => Proc.new { |address| address.state.blank? }
+  validates_presence_of :state, :if => Proc.new { |address| address.state_name.blank? && Spree::Config[:address_requires_state] }
+  validates_presence_of :state_name, :if => Proc.new { |address| address.state.blank? && Spree::Config[:address_requires_state] }
   validates_presence_of :zipcode
   validates_presence_of :country
   validates_presence_of :phone
@@ -48,11 +48,13 @@ class Address < ActiveRecord::Base
   end
 
   def zones
+    Zone.match(self)
   end
 
   def same_as?(other)
     attributes.except("id", "updated_at", "created_at") ==  other.attributes.except("id", "updated_at", "created_at")
   end
+  alias same_as same_as?
 
   def to_s
     "#{full_name}: #{address1}"

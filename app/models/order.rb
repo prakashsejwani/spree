@@ -12,7 +12,7 @@ class Order < ActiveRecord::Base
   belongs_to :user
   has_many :state_events
 
-  has_many :line_items,   :extend => Totaling, :dependent => :destroy, :attributes => true
+  has_many :line_items, :extend => Totaling, :dependent => :destroy
   has_many :inventory_units
 
   has_many :payments,            :extend => Totaling
@@ -29,8 +29,10 @@ class Order < ActiveRecord::Base
   has_many :tax_charges,      :extend => Totaling, :order => :position,
     :class_name => "Charge", :conditions => {:secondary_type => "TaxCharge"}
   has_many :credits,          :extend => Totaling, :order => :position
+  has_many :coupon_credits, :class_name => "Credit", :extend => Totaling, :conditions => {:adjustment_source_type => "Coupon"}, :order => :position
 
-  accepts_nested_attributes_for :checkout
+  accepts_nested_attributes_for :checkout  
+  accepts_nested_attributes_for :line_items
   
   def ship_address; shipment.address; end
   delegate :shipping_method, :to =>:shipment
@@ -116,7 +118,9 @@ class Order < ActiveRecord::Base
       current_item.quantity = (current_item.quantity + quantity) if quantity > 1
       current_item.save
     else
-      current_item = LineItem.new(:quantity => quantity, :variant => variant, :price => variant.price)
+      current_item = LineItem.new(:quantity => quantity)
+      current_item.variant = variant
+      current_item.price   = variant.price
       self.line_items << current_item
     end
     
@@ -204,10 +208,11 @@ class Order < ActiveRecord::Base
   end
 
   def update_totals
-    charges.reload.each(&:update_amount)
+    self.item_total       = self.line_items.total
 
-    self.item_total       = self.line_items.reload.total
+    charges.reload.each(&:update_amount)
     self.adjustment_total = self.charge_total - self.credit_total
+
     self.total            = self.item_total   + self.adjustment_total
   end
 
@@ -215,6 +220,39 @@ class Order < ActiveRecord::Base
     update_totals
     save!
   end
+  
+#  def google_checkout
+#    # Use your own merchant ID and Key, set use_sandbox to false for production
+#    @gateway = Gateway.find_by_clazz "Google4R::Checkout::Frontend"
+#    @gw = GatewayConfiguration.find_by_gateway_id(@gateway.id)
+#	  if @gw.present? && @gw.gateway_option_values[0].value.present? && @gw.gateway_option_values[1].value.present?
+#		configuration = { :merchant_id =>@gw.gateway_option_values[0].value, :merchant_key => @gw.gateway_option_values[1].value, :use_sandbox => true }
+#		@frontend = Google4R::Checkout::Frontend.new(configuration)
+#		@frontend.tax_table_factory = TaxTableFactory.new
+#		checkout_command = @frontend.create_checkout_command
+#		# Adding an item to shopping cart
+#		self.line_items.each do |l|
+#		 checkout_command.shopping_cart.create_item do |item|  
+#			  item.name = l.product.name
+#			  #puts "==================#{item.name.class}"
+#			  item.description = l.product.description
+#			  item.unit_price = Money.new(l.price, "GBP") # $35.00      
+#			  item.quantity = l.quantity
+#		   end
+#		 end
+#			
+#		 #Create a flat rate shipping method
+#		checkout_command.create_shipping_method(Google4R::Checkout::FlatRateShipping) do |shipping_method|
+#		 shipping_method.name = "UPS Standard 3 Day"
+#		  shipping_method.price = Money.new(5000, "GBP")
+#		  # Restrict to ship only to California
+#		  shipping_method.create_allowed_area(Google4R::Checkout::UsStateArea) do |area|
+#			area.state = "CA"
+#		  end
+#		end
+#		response = checkout_command.to_xml       #send_to_google_checkout 
+#   end
+#  end
 
   private
   
@@ -238,11 +276,11 @@ class Order < ActiveRecord::Base
       inventory_unit.restock! if inventory_unit.can_restock?
     end
   end
-  
+ 
   def update_line_items
-    self.line_items.each do |line_item|
-      LineItem.destroy(line_item.id) if line_item.quantity == 0
-    end
+    to_wipe = self.line_items.select {|li| 0 == li.quantity || li.quantity.nil? }
+    LineItem.destroy(to_wipe)
+    self.line_items -= to_wipe      # important: remove defunct items, avoid a reload
   end
   
   def generate_token
@@ -254,3 +292,7 @@ class Order < ActiveRecord::Base
     self.checkout ||= Checkout.create(:order => self)
   end
 end
+
+
+# please don't remove it, it's needed to activite observer if user doesn't update environment.rb
+OrderObserver.instance

@@ -217,6 +217,7 @@ nl-NL:
   combine: Combine
   comp_order: "Afgebroken order"
   comp_order_confirmation: "Er wordt geen afboeking verricht bij de klant. Are you sure you want to comp this order?"
+  complete: complete
   complete_list: "Complete lijst"
   configuration: Configuratie
   configuration_options: "Configuratie Opties"
@@ -230,6 +231,7 @@ nl-NL:
   country: Land
   country_based: "Gebaseerd op land"
   coupon: Coupon                                                                             
+  coupon_code: Coupon Code
   coupons: Coupons
   coupons_description: Manage coupons
   create: Aanmaken
@@ -270,6 +272,7 @@ nl-NL:
   email_server_settings_description: "E-mail server installen."
   empty_cart: "Winkelwagen leegmaken"
   enable_mail_delivery: "Mail aflevering aanzetten"
+  enable_mail_queue: "Enable Mail Queue"
   enter_exactly_as_shown_on_card: Please enter exactly as shown on the card
   error: fout
   event: Gebeurtenis
@@ -342,6 +345,8 @@ nl-NL:
   maestro_or_solo_cards: Maestro/Solo cards
   mail_delivery_enabled: "Mail aflevering aangezet"
   mail_delivery_not_enabled: "Mail aflevering afgezet"
+  mail_queue_enabled: "Mail queue is enabled"
+  mail_queue_not_enabled: "Mail queue is not enabled (emails are delivered immediately)"
   mail_server_preferences: "Mail server Instellingen"
   mail_server_settings: "Mail server Instellingen"
   mark_shipped: "Markeer verzonden"
@@ -400,6 +405,7 @@ nl-NL:
   order_number: "Nummer Bestelling"
   order_operation_authorize: Autoriseren
   order_processed_successfully: "Uw bestelling is succesvol verwerkt"
+  order_summary: Order Summary
   order_total: "Bestelling Totaal"
   order_total_message: "Het aan te rekenen totaalbedrag is"
   order_updated: "Bestelling gewijzigd"
