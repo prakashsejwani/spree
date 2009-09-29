@@ -27,9 +27,29 @@ class Admin::OrdersController < Admin::BaseController
     redirect_to :back
   end
   
+  def charge_google_order
+    @gateway = Gateway.find_by_clazz "Google4R::Checkout::Frontend"
+    @gw = GatewayConfiguration.find_by_gateway_id(@gateway.id)
+    if @gw.present? && @gw.gateway_option_values[0].value.present? && @gw.gateway_option_values[1].value.present?
+    configuration = { :merchant_id =>@gw.gateway_option_values[0].value, :merchant_key => @gw.gateway_option_values[1].value, :use_sandbox => true }
+    @frontend = Google4R::Checkout::Frontend.new(configuration)
+      order = @frontend.create_charge_order_command
+       o = Order.find_by_number(params[:id])
+      order.google_order_number = o.google_order_number if o.google_order_number.present? 
+      order.amount = Money.new(5017, "GBP")
+       puts "=-=-=-=-=-_+_+_+-#{order.to_xml}"
+      @orders = order.send_to_google_checkout
+     
+    end
+  end
+  
   private
 
   def collection
+   
+    @charge = '<?xml version="1.0" encoding="UTF-8"?><charge-order xmlns="http://checkout.google.com/schema/2" google-order-number= #{order.google_order_number}></charge-order>'
+      #request_http_basic_authentication Base64.b64encode('114190407551986:15DT8YcdHi_4Ns3_tefnxA')
+ 
     @search = Order.search(params[:search])
     @search.order ||= "descend_by_created_at"
 
@@ -55,6 +75,7 @@ class Admin::OrdersController < Admin::BaseController
   def initialize_order_events
     @order_events = %w{cancel resume}
   end
+  
   
 
 end

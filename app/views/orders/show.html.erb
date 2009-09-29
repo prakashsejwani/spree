@@ -1,7 +1,10 @@
 <div id="order">
   <%= link_to t('back_to_store'), products_path %> 
+  
 
+  
   <% if params.has_key? :checkout_complete %>
+  
   	<br/><br/>
   	<h3><%= t('thank_you_for_your_order') %></h3>         
   	<% if Spree::Config[:google_analytics_id] and not %w{development test}.include? RAILS_ENV %>

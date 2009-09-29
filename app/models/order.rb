@@ -221,39 +221,6 @@ class Order < ActiveRecord::Base
     save!
   end
   
-#  def google_checkout
-#    # Use your own merchant ID and Key, set use_sandbox to false for production
-#    @gateway = Gateway.find_by_clazz "Google4R::Checkout::Frontend"
-#    @gw = GatewayConfiguration.find_by_gateway_id(@gateway.id)
-#	  if @gw.present? && @gw.gateway_option_values[0].value.present? && @gw.gateway_option_values[1].value.present?
-#		configuration = { :merchant_id =>@gw.gateway_option_values[0].value, :merchant_key => @gw.gateway_option_values[1].value, :use_sandbox => true }
-#		@frontend = Google4R::Checkout::Frontend.new(configuration)
-#		@frontend.tax_table_factory = TaxTableFactory.new
-#		checkout_command = @frontend.create_checkout_command
-#		# Adding an item to shopping cart
-#		self.line_items.each do |l|
-#		 checkout_command.shopping_cart.create_item do |item|  
-#			  item.name = l.product.name
-#			  #puts "==================#{item.name.class}"
-#			  item.description = l.product.description
-#			  item.unit_price = Money.new(l.price, "GBP") # $35.00      
-#			  item.quantity = l.quantity
-#		   end
-#		 end
-#			
-#		 #Create a flat rate shipping method
-#		checkout_command.create_shipping_method(Google4R::Checkout::FlatRateShipping) do |shipping_method|
-#		 shipping_method.name = "UPS Standard 3 Day"
-#		  shipping_method.price = Money.new(5000, "GBP")
-#		  # Restrict to ship only to California
-#		  shipping_method.create_allowed_area(Google4R::Checkout::UsStateArea) do |area|
-#			area.state = "CA"
-#		  end
-#		end
-#		response = checkout_command.to_xml       #send_to_google_checkout 
-#   end
-#  end
-
   private
   
   def complete_order

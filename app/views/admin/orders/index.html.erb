@@ -14,6 +14,7 @@
       <th><%= order @search, :by => :state,            :as => t("status") %></th>
       <th><%= order @search, :by => {:user => :email}, :as => t("customer") %></th>
       <th><%= order @search, :by => :total,            :as => t("total") %></th>
+	  <th></th>
     </tr>
   </thead>
   <tbody>
@@ -24,13 +25,17 @@
       <td><%= t(order.state.downcase) %></td>
       <td><%= order.email %></td>
       <td><%= number_to_currency order.total %></td>
+	  <%if order.google_order_number.present?%>
+	   <td><%= link_to "Cancel", google_checkout_process_admin_google_checkouts_path(:order => order.number)%></td>
+	   <td><%= link_to "Charge", charge_google_order_admin_order_path(order)%></td>
+	   <%end%>
     </tr>
   <% end %>
   </tbody>
 </table>
 <%= will_paginate(:prev => "&#171; #{t('previous')}", :next => "#{t('next')} &#187;") %>
         
-        
+  
         
 <% content_for :sidebar do %>      
 <div class="box">

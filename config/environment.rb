@@ -10,7 +10,6 @@ SPREE_GEM_VERSION = '0.9.99' unless defined? SPREE_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 require 'google4r/checkout'
-require "rubygems"
 require "oauth"
 require 'hmac'
 require "kconv"

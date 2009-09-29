@@ -31,6 +31,7 @@ class CheckoutsController < Spree::BaseController
       order_params = {:checkout_complete => true}
       order_params[:order_token] = @order.token unless @order.user
       session[:order_id] = nil if @order.checkout.completed_at
+       @order.update_attribute(:gateway , "CreditCard Payment")
       redirect_to order_url(@order, order_params) and next if params[:final_answer]
     end 
 
