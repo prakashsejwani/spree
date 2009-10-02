@@ -14,8 +14,8 @@
     <ul>
       <%  has_checked = false
           @product.variants.active.each_with_index do |v,index|
-         		next if v.option_values.empty? || (!v.in_stock && !Spree::Config[:show_zero_stock_products])
-         		checked = !has_checked && (v.in_stock || Spree::Config[:allow_backorders])
+         		next if v.option_values.empty? || (!v.in_stock? && !Spree::Config[:show_zero_stock_products])
+         		checked = !has_checked && (v.in_stock? || Spree::Config[:allow_backorders])
          		has_checked = true if checked %>
         <li>
           <label>

@@ -78,13 +78,12 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :orders do |order|
       order.resources :creditcard_payments, :member => {:capture => :get}
     end
-    admin.resources :orders, :member =>{:charge_google_order => :get}
+    admin.resources :orders, :member =>{:charge_google_order => :get, :cancel_google_checkout_order => :get}
     admin.resource :general_settings
     admin.resources :taxonomies do |taxonomy|
       taxonomy.resources :taxons
     end 
     admin.resources :reports, :only => [:index, :show], :collection => {:sales_total => :get}
-    admin.resources :google_checkouts , :collection => {:google_checkout_process => :get}
     admin.resources :shipments
     admin.resources :shipping_methods
     admin.resources :shipping_categories

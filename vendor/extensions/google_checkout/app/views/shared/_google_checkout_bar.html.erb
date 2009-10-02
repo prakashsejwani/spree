@@ -1,0 +1,18 @@
+<% unless @order.line_items.empty? -%>
+<%@gateway = Gateway.find_by_clazz "Google4R::Checkout::Frontend"%>
+		<% @gw = GatewayConfiguration.find_by_gateway_id(@gateway.id)%>
+		
+    <%if @gw.present? && @gw.gateway_option_values[0].value.present? && @gw.gateway_option_values[1].value.present?%> 
+		<%# link_to image_tag("http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=114190407551986 &w=180&h=46&style=white&variant=text&loc=en_US"), google_checkout_order_path(@order, {:format => :xml})%>
+		<form method="POST" 
+			 action="https://sandbox.google.com/checkout/api/checkout/v2/checkout/Merchant/114190407551986">
+				<%= hidden_field_tag :cart, "#{Base64.b64encode(@response)}"%>
+				<%= hidden_field_tag :signature, "#{signature(@response, '15DT8YcdHi_4Ns3_tefnxA')}"%>
+				 <%= puts "=-=-=-=-=-=-=-=-#{@response}"%>
+			 <input type="image" name="Google Checkout" alt="Fast checkout through Google"
+				  src="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=114190407551986
+						  &w=180&h=46&style=white&variant=text&loc=en_GB"  height="46" width="180">
+		</form>
+
+	 <%end%>
+	 <%end%>

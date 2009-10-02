@@ -14,7 +14,7 @@
       <th><%= order @search, :by => :state,            :as => t("status") %></th>
       <th><%= order @search, :by => {:user => :email}, :as => t("customer") %></th>
       <th><%= order @search, :by => :total,            :as => t("total") %></th>
-	  <th></th>
+	  <th colspan="3">google checkout status</th>
     </tr>
   </thead>
   <tbody>
@@ -25,16 +25,14 @@
       <td><%= t(order.state.downcase) %></td>
       <td><%= order.email %></td>
       <td><%= number_to_currency order.total %></td>
-	  <%if order.google_order_number.present?%>
-	   <td><%= link_to "Cancel", google_checkout_process_admin_google_checkouts_path(:order => order.number)%></td>
-	   <td><%= link_to "Charge", charge_google_order_admin_order_path(order)%></td>
-	   <%end%>
-    </tr>
+	  <%= render :partial => 'admin/shared/google_checkout_status', :locals =>{:order => order} if Spree::Config[:google_checkout_button] %>
+	</tr>
   <% end %>
   </tbody>
+     
 </table>
 <%= will_paginate(:prev => "&#171; #{t('previous')}", :next => "#{t('next')} &#187;") %>
-        
+    
   
         
 <% content_for :sidebar do %>      
