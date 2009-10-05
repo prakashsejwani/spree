@@ -5,7 +5,10 @@ class Admin::BaseController < Spree::BaseController
   before_filter :initialize_product_admin_tabs
   before_filter :initialize_order_admin_tabs
   before_filter :initialize_extension_tabs
+  before_filter :initialize_extension_partials
   before_filter :add_shipments_tab
+
+ 
 
 private
   def add_extension_admin_tab(tab_args)
@@ -29,4 +32,11 @@ private
   def initialize_order_admin_tabs
     @order_admin_tabs = []
   end
+  
+   # Used for pages which need to render certain partials in the middle
+  # of a view. Ex. Extra user form fields
+  def initialize_extension_partials
+    @extension_partials = []
+  end
+  
 end

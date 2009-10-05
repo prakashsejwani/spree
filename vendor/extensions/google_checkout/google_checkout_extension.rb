@@ -1,10 +1,11 @@
 # Uncomment this if you reference any of your controllers in activate
-# require_dependency 'application'
+ require_dependency 'application'
 
 class GoogleCheckoutExtension < Spree::Extension
   version "1.0"
-  description "Describe your extension here"
-  url "http://yourwebsite.com/google_checkout"
+  description "Provides google checkout payment gateway functionality.  User specifies an GoogleCheckout compatible gateway 
+  to use in the aplication."
+  #url "http://yourwebsite.com/google_checkout"
 
   # Please use google_checkout/config/routes.rb instead for extension routes.
 
@@ -113,7 +114,11 @@ class GoogleCheckoutExtension < Spree::Extension
             @response = checkout_command.to_xml       #send_to_google_checkout    # 
       # puts "===========#{request.raw_post}"
          end
-      end
+     end
+     
+     show.before do
+       session[:order_id] = nil
+     end
     end
     
   end

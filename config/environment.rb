@@ -10,9 +10,9 @@ SPREE_GEM_VERSION = '0.9.99' unless defined? SPREE_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 require 'google4r/checkout'
-#require "oauth"
-#require 'hmac'
-#require "kconv"
+require "oauth"
+require 'hmac'
+require "kconv"
 Spree::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -43,9 +43,7 @@ Spree::Initializer.run do |config|
   config.gem 'searchlogic', :version => '2.1.13'
   config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', 
         :source => 'http://gems.github.com'
-  config.gem 'oauth'
-  config.gem 'hmac'
-  config.gem 'kcov'
+
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

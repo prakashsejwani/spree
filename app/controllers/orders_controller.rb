@@ -42,6 +42,8 @@ class OrdersController < Spree::BaseController
     wants.html {redirect_to edit_order_url(object)}
   end  
   
+  
+  
   #override r_c default b/c we don't want to actually destroy, we just want to clear line items
   def destroy
     flash[:notice] = I18n.t(:basket_successfully_cleared)

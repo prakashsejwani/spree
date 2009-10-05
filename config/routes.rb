@@ -39,7 +39,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :states, :only => :index
   map.resources :users
   map.resources :products, :member => {:change_image => :post}
-  map.resources :google_checkout_notification
+  
   map.resources :orders, :member => {:address_info => :get}, :has_many => [:line_items, :creditcards, :creditcard_payments], :has_one => :checkout
   map.resources :orders, :member => {:fatal_shipping => :get} do |order|
     order.resources :shipments, :member => {:shipping_method => :get}
@@ -63,7 +63,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :tax_categories
     admin.resources :configurations
     admin.resources :products, :has_many => [:product_properties, :images] do |product|
-			product.resources :variants 
+			product.resources :variants, :has_many => :images 
       product.resources :option_types, :member => {:select => :get, :remove => :get}, :collection => {:available => :get, :selected => :get}
       product.resources :taxons, :member => {:select => :post, :remove => :post}, :collection => {:available => :post, :selected => :get}
     end
@@ -78,7 +78,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :orders do |order|
       order.resources :creditcard_payments, :member => {:capture => :get}
     end
-    admin.resources :orders, :member =>{:charge_google_order => :get, :cancel_google_checkout_order => :get}
+    
     admin.resource :general_settings
     admin.resources :taxonomies do |taxonomy|
       taxonomy.resources :taxons

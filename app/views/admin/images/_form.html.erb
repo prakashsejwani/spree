@@ -2,7 +2,7 @@
   <td><%= t("filename") %>:</td>
   <td><%= f.file_field :attachment %></td>
 </tr>
-<% if @product.variants? %>
+<% if @product.has_variants? %>
   <tr>
     <td><%= Variant.human_name %>:</td>
     <td><%= select_tag :viewable_id, options_for_select(@variants) %></td>
@@ -10,3 +10,4 @@
 <% else %>
   <%= hidden_field_tag :product_id, @product.id %>
 <% end %>
+<%= render :partial => "gender_list", :locals => {:f => f}%>

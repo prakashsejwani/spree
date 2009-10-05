@@ -1,5 +1,5 @@
 class GoogleCheckoutNotificationController < ApplicationController
-   protect_from_forgery :except => :create
+protect_from_forgery :except => :create
   
   def create
     if (checkout_info = params[:new_order_notification])   #and not checkout_info[:coupon_code]
@@ -41,7 +41,7 @@ class GoogleCheckoutNotificationController < ApplicationController
       new_shipping_address.address2 = checkout_info[:buyer_shipping_address][:address2] if checkout_info[:buyer_shipping_address][:address2]
       new_shipping_address.save(false)
       @order.shipment.update_attribute(:address_id,  new_shipping_address.id)
-      @order.charges.create!(:description => checkout_info[:order_adjustment][:shipping][:flat_rate_shipping_adjustment][:shipping_name] , :secondary_type => "ShippingCharge", :amount => checkout_info[:order_adjustment][:shipping][:flat_rate_shipping_adjustment][:shipping_name].to_f)
+      @order.charges.create!(:description => checkout_info[:order_adjustment][:shipping][:flat_rate_shipping_adjustment][:shipping_name] , :secondary_type => "ShippingCharge", :amount => checkout_info[:order_adjustment][:shipping][:flat_rate_shipping_adjustment][:shipping_cost].to_f)
     end
   end  
       
@@ -58,7 +58,7 @@ class GoogleCheckoutNotificationController < ApplicationController
 #          checkout_info[:bill_address_attributes].delete :id  
 #          @checkout.bill_address = Address.new
 #        end
-      end
+
 #
 #      # check whether the ship address has changed, and start a fresh record if 
 #      # we were using the address stored in the current user.
@@ -122,3 +122,5 @@ class GoogleCheckoutNotificationController < ApplicationController
 #    render :text => notification_acknowledgement, :status => 200
 # end
 #  end
+
+end
